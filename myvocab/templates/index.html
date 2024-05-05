@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <!-- Basic -->
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!-- Mobile Metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <!-- Site Metas -->
+      <meta name="keywords" content="" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <link rel="shortcut icon" href="" type="">
+      <title>My Vocab</title>
+      <!-- bootstrap core css -->
+      <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.css' %}" />
+      <!-- font awesome style -->
+      <link href="{% static '/css/font-awesome.min.css' %}" rel="stylesheet" />
+      <!-- Custom styles for this template -->
+      <link href="{% static '/css/style.css' %}" rel="stylesheet" />
+      <!-- responsive style -->
+      <link href="{% static '/css/responsive.css' %}" rel="stylesheet" />
+   </head>
+   <body>
+      <div class="hero_area">
+      
+         <!-- header section strats -->
+         {% include 'inc/navbar.html'%}
+         <!-- end header section -->
+         <!-- slider section -->
+         {% include 'inc/slider.html'%}
+         <!-- end slider section -->
+      </div>
+      
+      <!-- jQery -->
+      <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+      <!-- popper js -->
+      <script src="{% static '/js/popper.min.js' %}"></script>
+      <!-- bootstrap js -->
+      <script src="{% static '/js/bootstrap.js' %}"></script>
+      <!-- custom js -->
+      <!-- <script src="{% static '/js/custom.js' %}"></script> -->
+ 
+
+1
+      <script>
+      function fetchGeminiContent() {
+        // Replace with your actual Gemini API key
+        const GOOGLE_API_KEY = 'AIzaSyDgY8qb_k5znoKjCA98F5Tzmsgcd6My5b4';
+      
+        // Base URL for the Gemini API
+        const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+      
+        // Request headers
+        const headers = { 'Content-Type': 'application/json' };
+      
+        // Request body with the prompt for a story about a magic backpack
+        const data = {
+          contents: [{
+            parts: [{
+              text: "generate a word and it's meaning also give a simple sentence with that word"
+            }]
+          }]
+        };
+      
+        $.ajax({
+          url: GEMINI_API_URL,
+          method: 'POST',
+          headers: headers,
+          data: JSON.stringify(data),
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', `Bearer ${GOOGLE_API_KEY}`);
+          },
+          success: function(response) {
+            const generatedContent = response.contents[0].generatedText;
+            // Replace 'response.html' with the actual URL for your content display page
+            window.location.href = `./response.html?content=${generatedContent}`;
+          },
+          error: function(error) {
+            console.log(error);
+            alert('An error occurred while fetching content: ' + error.statusText);
+          }
+        });
+      }
+      //3rd step from gemini result
+      $(document).ready(function() {
+  $("#generateButton").on("click", fetchGeminiContent);
+});
+      </script>
+
+
+  </body>
+      
+</html>

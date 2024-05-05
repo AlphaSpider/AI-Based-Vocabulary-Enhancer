@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generated Content</title>
+</head>
+<body>
+
+  <h1>Generated Story</h1>
+  <p id="generatedStory" style="font-size: 18px; margin-top: 20px;"></p>
+
+  <script>
+    // Get the generated content from the URL parameter (if available)
+    const urlParams = new URLSearchParams(window.location.search);
+    const generatedContent = urlParams.get("content");
+
+    // Check if generated content exists in the URL parameter
+    if (generatedContent) {
+      document.getElementById("generatedStory").innerText = generatedContent;
+    } else {
+      document.getElementById("generatedStory").innerText = "No generated content found.";
+    }
+  </script>
+</body>
+</html>
